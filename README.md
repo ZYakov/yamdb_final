@@ -1,5 +1,6 @@
 # yamdb_final
-![yamdb workflow]()
+![yamdb workflow](https://github.com/zyakov/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
+
 
 51.250.91.161
 
