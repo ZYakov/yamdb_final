@@ -59,17 +59,17 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
-            sudo docker-compose stop
-            sudo docker-compose rm web
-            touch .env
-            echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
-            echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-            sudo docker-compose up -d
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'sudo docker-compose stop'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'sudo docker-compose rm web'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'touch .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'echo DB_NAME=${{ secrets.DB_NAME }} >> .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'echo DB_HOST=${{ secrets.DB_HOST }} >> .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'echo DB_PORT=${{ secrets.DB_PORT }} >> .env'
+            ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER }}@${{ secrets.HOST }} 'sudo docker-compose up -d'
             
   send_message_telegram:
     runs-on: ubuntu-latest
