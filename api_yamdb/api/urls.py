@@ -25,7 +25,6 @@ auth_patterns = [
     path('token/', get_token, name='token')
 ]
 urlpatterns = [
-    path('api/v1/', include('api.urls')),
     path('v1/auth/', include(auth_patterns)),
     path('v1/', include(router.urls)),
 ]
