@@ -2,7 +2,7 @@
 ![yamdb workflow](https://github.com/zyakov/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 
 
-51.250.91.161
+158.160.109.76
 
 ### Описание
 Проект YaMDb собирает отзывы (Review) пользователей на произведения (Title). 
