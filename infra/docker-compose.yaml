@@ -10,7 +10,7 @@ services:
             - ./.env
         restart: always
     web:
-        image: zyakov/api_yamdb:latest
+        image: zyakov/api_yamdb:rebuild
         restart: always
         volumes:
             - static_value:/app/static/

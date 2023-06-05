@@ -46,11 +46,12 @@ jobs:
           context: ./api_yamdb
           file: ./api_yamdb/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:rebuild
   
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: executing remote ssh command to deploy
         uses: appleboy/ssh-action@master
@@ -59,17 +60,18 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:rebuild 
             sudo docker-compose stop
-            sudo docker-compose rm web
-            touch .env
+            sudo docker-compose rm web 
+            touch .env 
+            echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-            sudo docker-compose -f ZYakov/yamdb_final/infra/docker-compose.yaml up -d
+            sudo docker-compose up -d
             
   send_message_telegram:
     runs-on: ubuntu-latest
@@ -81,3 +83,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           massage: ${{ github.workflow }} успешно выполнен!
+
